@@ -69,11 +69,37 @@ public class ProductController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/editProduct/{id}")
-    public ResponseEntity<GenericResponse> editProduct(@PathVariable Long id, @RequestBody ProductRequestDTO productRequestDTO
+    public ResponseEntity<GenericResponse> editProduct(@PathVariable Long id,
+                                                       @RequestParam("name") String name,
+                                                       @RequestParam("category") String category,
+                                                       @RequestParam("productImage") MultipartFile productImage,
+                                                       @RequestParam("previewImage") MultipartFile previewImage,
+                                                       @RequestParam("productId") String productId,
+                                                       @RequestParam("price") Integer price,
+                                                       @RequestParam("quantity") Integer quantity,
+                                                       @RequestParam("color") String color,
+                                                       @RequestParam("sizes") List<String> sizes
     ) {
-        GenericResponse genericResponse = productService.editProduct(id, productRequestDTO);
-        return new ResponseEntity<>(genericResponse, HttpStatus.OK);
+        ProductRequestDTO productRequestDTO = new ProductRequestDTO();
+        productRequestDTO.setName(name);
+        productRequestDTO.setCategory(category);
+        productRequestDTO.setProductId(productId);
+        productRequestDTO.setPrice(price);
+        productRequestDTO.setQuantity(quantity);
+        productRequestDTO.setColor(color);
+        productRequestDTO.setSizes(sizes);
+
+        GenericResponse genericResponse = productService.editProduct(id, productRequestDTO, productImage, previewImage);
+        return new ResponseEntity<>(genericResponse, genericResponse.getHttpStatus());
     }
+
+//    @CrossOrigin(origins = "http://localhost:3000")
+//    @PutMapping("/editProduct/{id}")
+//    public ResponseEntity<GenericResponse> editProduct(@PathVariable Long id, @RequestBody ProductRequestDTO productRequestDTO
+//    ) {
+//        GenericResponse genericResponse = productService.editProduct(id, productRequestDTO);
+//        return new ResponseEntity<>(genericResponse, HttpStatus.OK);
+//    }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/hideProduct/{id}")

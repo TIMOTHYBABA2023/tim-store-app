@@ -19,6 +19,6 @@ public class ProductResponseDTO {
     private String imageReviewUrl;
     private String color;
     private List<String> sizes;
-
+    private boolean hideProduct;
 
 }

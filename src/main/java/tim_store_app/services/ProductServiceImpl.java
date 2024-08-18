@@ -91,22 +91,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public GenericResponse editProduct(Long id, ProductRequestDTO productRequestDTO) {
+    public GenericResponse editProduct(Long id, ProductRequestDTO productRequestDTO, MultipartFile productImage, MultipartFile previewImage) {
+
         Product existingProduct = productRepository.findById(id).orElse(null);
-
         if (existingProduct == null) {
-            return new GenericResponse("Saved successfully", HttpStatus.OK);
+            return new GenericResponse("No product found with the provided Id", HttpStatus.NOT_FOUND);
         }
-        existingProduct.setName(productRequestDTO.getName());
-        existingProduct.setCategory(productRequestDTO.getCategory());
-        existingProduct.setPrice(productRequestDTO.getPrice());
-        existingProduct.setQuantity(productRequestDTO.getQuantity());
-        existingProduct.setColor(productRequestDTO.getColor());
+        String productImageUrl = saveImage(productImage, productImagesPath);
+        String previewImageUrl = saveImage(previewImage, previewImagesPath);
 
-        productRepository.save(existingProduct);
+        if (productImage.isEmpty() || previewImage.isEmpty()) {
+            return new GenericResponse("Provide ProductImage and ProductPreviewImage", HttpStatus.BAD_REQUEST);
+        }
+        Product product1 = getProduct(productRequestDTO, productImageUrl, previewImageUrl);
+        product1.setId(id);
+        productRepository.save(product1);
 
-        return new GenericResponse("updated successfully", HttpStatus.OK);
+        return new GenericResponse("Updated successfully", HttpStatus.OK);
     }
+
 
     @Override
     public GenericResponse hideProduct(Long id) {

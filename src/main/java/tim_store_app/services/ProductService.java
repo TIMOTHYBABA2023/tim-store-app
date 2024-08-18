@@ -18,10 +18,11 @@ public interface ProductService {
 
     GenericResponse deleteProduct(Long id);
 
-    GenericResponse editProduct(Long id, ProductRequestDTO productRequestDTO);
+//    GenericResponse editProduct(Long id, ProductRequestDTO productRequestDTO);
 
     GenericResponse hideProduct(Long id);
 
     ProductResponseDTO getProductById(Long productId);
 
+    GenericResponse editProduct(Long id, ProductRequestDTO productRequestDTO, MultipartFile productImage, MultipartFile previewImage);
 }
