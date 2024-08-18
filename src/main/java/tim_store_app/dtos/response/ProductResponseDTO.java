@@ -10,7 +10,7 @@ import java.util.List;
 public class ProductResponseDTO {
 
     private Long id;
-    private double productId;
+    private String productId;
     private String name;
     private String category;
     private int price;
